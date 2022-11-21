@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forward</title>
+    <link rel="stylesheet" href="/final_proj_yahtzee/style.css">
+    <link rel="stylesheet" href="/final_proj_yahtzee/paper_style.css">
+    <script src="/final_proj_yahtzee/js/p5.js"></script>
+    <script src="/final_proj_yahtzee/js/data_gen.js"></script>
+  </head>
+  <body>
+    <!-- 
+        Flow:
+            Start prompt w/ start button (Overlayed above the game board with opaque background; remove opaque on start)
+            Rules presented (Avaliable through button somewhere in menu button)
+
+
+     -->
+    <div id="Page_Content"> <!-- This will hold everything, not grid-->
+        <div id="Start_box">
+            <!--
+                - Sits on top (absolute) until start button is selected; triggers rules box w/ button to continue
+                - Rules box will be able to be pulled up via other button which will (absolute) overlay game content with a 
+                    toggle button
+            
+            -->
+        </div>
+        <div id="Game_Content">   
+            <!-- 
+                - 2 collumns. one for score board, on for dice
+                - Game Content should be ~70% wide and centered. I want there to be either blackspace or something on either side 
+                    - maybe smoke animation on the side? Make it a lil creepy
+                - Game content should be like ~95% tall so a menu bar can be placed along the bottom/top to bring up rules or restart  
+            -->
+            <div id="Score_Board">
+                <!--
+                    List of scores (<ol>)
+                    - length 15(scores plus bonus and top section sum)
+                    - each list element contains a row# and a scoree justified right
+                    
+                    Play Combonation button
+                        - Toggle that allows for playable scores to be selectable
+                            - Playable scores will be highlighted red?
+                        
+                        - Confirmation button after score is selected
+                -->
+            </div>
+            <div id="Dice_Board">
+                <!-- 
+                    Possible dice selection functionalities 
+                    - I want a section here for user to drag dice to. Dice within the section are selected and will be rolled\
+                    
+                    - Each dice is selctable (does something to denote it is selected) and will randomize on roll
+
+                 -->
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="/final_proj_yahtzee/index.js"></script>
+  </body>
+</html>

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forward</title>
     <link rel="stylesheet" href="/final_proj_yahtzee/styles.css">
     <script src="/final_proj_yahtzee/js/p5.js"></script>
     <script src="/final_proj_yahtzee/js/yahtzee.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
     <!-- 
         Flow:
             Start prompt w/ start button (Overlayed above the game board with opaque background; remove opaque on start)
@@ -16,7 +18,8 @@
 
 
      -->
-    <div id="Page_Content"> <!-- This will hold everything, not grid-->
+    <div id="Page_Content">
+        <!-- This will hold everything, not grid-->
         <div id="Start_box">
             <!--
                 - Sits on top (absolute) until start button is selected; triggers rules box w/ button to continue
@@ -25,7 +28,7 @@
             
             -->
         </div>
-        <div id="Game_Content">   
+        <div id="Game_Content">
             <!-- 
                 - 2 collumns. one for score board, on for dice
                 - Game Content should be ~70% wide and centered. I want there to be either blackspace or something on either side 
@@ -33,6 +36,63 @@
                 - Game content should be like ~95% tall so a menu bar can be placed along the bottom/top to bring up rules or restart  
             -->
             <div id="Score_Board">
+                <ul id="score_list">
+                    <li>
+                        <span class="score">Ones</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Twos</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Threes</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Fours</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Fives</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Sixes</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Three of a Kind</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Four of a Kind</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Full House</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Small Straight</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Large Straight</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Chance</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                    <li>
+                        <span class="score">Yahtzee</span>
+                        <span class="combination_select_button">Select</span>
+                    </li>
+                </ul>
+                <div id="play_combo_button">
+                    <button>Play a Combonation</button>
+                </div>
                 <!--
                     List of scores (<ol>)
                     - length 15(scores plus bonus and top section sum)
@@ -46,6 +106,193 @@
                 -->
             </div>
             <div id="Dice_Board">
+                <div id="dice_actions_container">
+                    <div id='dice1' class="dice dice-one">
+                        <div id="dice-one-side-one" class='side one'>
+                            <div class="dot one-1"></div>
+                        </div>
+                        <div id="dice-one-side-two" class='side two'>
+                            <div class="dot two-1"></div>
+                            <div class="dot two-2"></div>
+                        </div>
+                        <div id="dice-one-side-three" class='side three'>
+                            <div class="dot three-1"></div>
+                            <div class="dot three-2"></div>
+                            <div class="dot three-3"></div>
+                        </div>
+                        <div id="dice-one-side-four" class='side four'>
+                            <div class="dot four-1"></div>
+                            <div class="dot four-2"></div>
+                            <div class="dot four-3"></div>
+                            <div class="dot four-4"></div>
+                        </div>
+                        <div id="dice-one-side-five" class='side five'>
+                            <div class="dot five-1"></div>
+                            <div class="dot five-2"></div>
+                            <div class="dot five-3"></div>
+                            <div class="dot five-4"></div>
+                            <div class="dot five-5"></div>
+                        </div>
+                        <div id="dice-one-side-six" class='side six'>
+                            <div class="dot six-1"></div>
+                            <div class="dot six-2"></div>
+                            <div class="dot six-3"></div>
+                            <div class="dot six-4"></div>
+                            <div class="dot six-5"></div>
+                            <div class="dot six-6"></div>
+                        </div>
+                    </div>
+
+
+                    <div id='dice2' class="dice dice-two">
+                        <div id="dice-two-side-one" class='side one'>
+                            <div class="dot one-1"></div>
+                        </div>
+                        <div id="dice-two-side-two" class='side two'>
+                            <div class="dot two-1"></div>
+                            <div class="dot two-2"></div>
+                        </div>
+                        <div id="dice-two-side-three" class='side three'>
+                            <div class="dot three-1"></div>
+                            <div class="dot three-2"></div>
+                            <div class="dot three-3"></div>
+                        </div>
+                        <div id="dice-two-side-four" class='side four'>
+                            <div class="dot four-1"></div>
+                            <div class="dot four-2"></div>
+                            <div class="dot four-3"></div>
+                            <div class="dot four-4"></div>
+                        </div>
+                        <div id="dice-two-side-five" class='side five'>
+                            <div class="dot five-1"></div>
+                            <div class="dot five-2"></div>
+                            <div class="dot five-3"></div>
+                            <div class="dot five-4"></div>
+                            <div class="dot five-5"></div>
+                        </div>
+                        <div id="dice-two-side-six" class='side six'>
+                            <div class="dot six-1"></div>
+                            <div class="dot six-2"></div>
+                            <div class="dot six-3"></div>
+                            <div class="dot six-4"></div>
+                            <div class="dot six-5"></div>
+                            <div class="dot six-6"></div>
+                        </div>
+                    </div>
+
+
+                    <div id='dice3' class="dice dice-three">
+                        <div id="dice-three-side-one" class='side one'>
+                            <div class="dot one-1"></div>
+                        </div>
+                        <div id="dice-three-side-two" class='side two'>
+                            <div class="dot two-1"></div>
+                            <div class="dot two-2"></div>
+                        </div>
+                        <div id="dice-three-side-three" class='side three'>
+                            <div class="dot three-1"></div>
+                            <div class="dot three-2"></div>
+                            <div class="dot three-3"></div>
+                        </div>
+                        <div id="dice-three-side-four" class='side four'>
+                            <div class="dot four-1"></div>
+                            <div class="dot four-2"></div>
+                            <div class="dot four-3"></div>
+                            <div class="dot four-4"></div>
+                        </div>
+                        <div id="dice-three-side-five" class='side five'>
+                            <div class="dot five-1"></div>
+                            <div class="dot five-2"></div>
+                            <div class="dot five-3"></div>
+                            <div class="dot five-4"></div>
+                            <div class="dot five-5"></div>
+                        </div>
+                        <div id="dice-three-side-six" class='side six'>
+                            <div class="dot six-1"></div>
+                            <div class="dot six-2"></div>
+                            <div class="dot six-3"></div>
+                            <div class="dot six-4"></div>
+                            <div class="dot six-5"></div>
+                            <div class="dot six-6"></div>
+                        </div>
+                    </div>
+
+                    <div id='dice4' class="dice dice-four">
+                        <div id="dice-four-side-one" class='side one'>
+                            <div class="dot one-1"></div>
+                        </div>
+                        <div id="dice-four-side-two" class='side two'>
+                            <div class="dot two-1"></div>
+                            <div class="dot two-2"></div>
+                        </div>
+                        <div id="dice-four-side-three" class='side three'>
+                            <div class="dot three-1"></div>
+                            <div class="dot three-2"></div>
+                            <div class="dot three-3"></div>
+                        </div>
+                        <div id="dice-four-side-four" class='side four'>
+                            <div class="dot four-1"></div>
+                            <div class="dot four-2"></div>
+                            <div class="dot four-3"></div>
+                            <div class="dot four-4"></div>
+                        </div>
+                        <div id="dice-four-side-five" class='side five'>
+                            <div class="dot five-1"></div>
+                            <div class="dot five-2"></div>
+                            <div class="dot five-3"></div>
+                            <div class="dot five-4"></div>
+                            <div class="dot five-5"></div>
+                        </div>
+                        <div id="dice-four-side-six" class='side six'>
+                            <div class="dot six-1"></div>
+                            <div class="dot six-2"></div>
+                            <div class="dot six-3"></div>
+                            <div class="dot six-4"></div>
+                            <div class="dot six-5"></div>
+                            <div class="dot six-6"></div>
+                        </div>
+                    </div>
+
+                    <div id='dice5' class="dice dice-five">
+                        <div id="dice-five-side-one" class='side one'>
+                            <div class="dot one-1"></div>
+                        </div>
+                        <div id="dice-five-side-two" class='side two'>
+                            <div class="dot two-1"></div>
+                            <div class="dot two-2"></div>
+                        </div>
+                        <div id="dice-five-side-three" class='side three'>
+                            <div class="dot three-1"></div>
+                            <div class="dot three-2"></div>
+                            <div class="dot three-3"></div>
+                        </div>
+                        <div id="dice-five-side-four" class='side four'>
+                            <div class="dot four-1"></div>
+                            <div class="dot four-2"></div>
+                            <div class="dot four-3"></div>
+                            <div class="dot four-4"></div>
+                        </div>
+                        <div id="dice-five-side-five" class='side five'>
+                            <div class="dot five-1"></div>
+                            <div class="dot five-2"></div>
+                            <div class="dot five-3"></div>
+                            <div class="dot five-4"></div>
+                            <div class="dot five-5"></div>
+                        </div>
+                        <div id="dice-five-side-six" class='side six'>
+                            <div class="dot six-1"></div>
+                            <div class="dot six-2"></div>
+                            <div class="dot six-3"></div>
+                            <div class="dot six-4"></div>
+                            <div class="dot six-5"></div>
+                            <div class="dot six-6"></div>
+                        </div>
+                    </div>
+                    
+                    
+
+                </div>
+                <div id='roll' class='roll-button'><button>Roll dice!</button></div>
                 <!-- 
                     Possible dice selection functionalities 
                     - I want a section here for user to drag dice to. Dice within the section are selected and will be rolled\
@@ -59,7 +306,7 @@
 
     </div>
 
-
     <script src="/final_proj_yahtzee/index.js"></script>
-  </body>
+</body>
+
 </html>

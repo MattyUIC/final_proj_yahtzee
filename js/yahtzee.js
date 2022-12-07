@@ -23,7 +23,9 @@ class Dice {
     }
 
     roll() {
-        this.#_value = Math.floor(Math.random() * 101) % 6 + 1;
+        var value = Math.floor(Math.random() * 101) % 6 + 1;
+        this.#_value = value;
+        return value;
     }
 
     setValue(value){
@@ -36,21 +38,35 @@ class Dice {
 
 class Hand {
     #held_dice = []; //vector
+    #roll_count = 0;
 
     constructor() {
         for (let i = 0; i < 5; i++) {
             var die = new Dice({ position: i });
             this.#held_dice.push(die);
         }
+        this.#roll_count = 0;
     }
 
-    roll_selected_dice(array_of_selected_dice_ints){
-        array_of_selected_dice_ints.forEach(index =>{
-            this.#held_dice[index].roll();
-        });
-        // for(selected_die_int of array_of_selected_dice_ints){
-        //     this.#held_dice[selected_die_int].roll();
-        // }
+    get_roll_count(){
+        return this.#roll_count;
+    }
+
+    roll_selected_dice(array_of_selected_dice){
+        this.#roll_count++;
+        var selected_dice_ints = [];
+        var newValue = 0;
+        var originalValue = 0;
+        var index_value_obj;
+        for(var index = 0; index < array_of_selected_dice.length; index++){
+            if(array_of_selected_dice[index]){
+                originalValue = this.#held_dice[index].get_value();
+                newValue = this.#held_dice[index].roll();
+                index_value_obj = {index: index, originalValue: originalValue, newValue: newValue};
+                selected_dice_ints.push(index_value_obj);
+            }
+        }
+      return selected_dice_ints;
     }
 
     get_held_die(int_die){
@@ -113,59 +129,115 @@ class Game {
     }
 
     calc_of_a_kind_score(row, arry_dice_value_counts){
-        let kind = row == 3?
+        let kind = row == 6? 3:4;
+        // console.log("In calc_of_a_kind_score", {row: row, kind: kind, arry: arry_dice_value_counts})
+        for(let i of arry_dice_value_counts){
+            if(i == kind){
+                // console.log("i == kind", {i: i, kind: kind})
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
-        for(i in arry_dice_value_counts){
+    //Modifies passed in valid_rows
+    find_valid_rows(valid_rows, arry_dice_value_counts){
 
+        let straightCount = 0;
+        let dice_value_count = 0;
+
+        for(let i = 0; i<arry_dice_value_counts.length; i++){
+            dice_value_count = arry_dice_value_counts[i];
+            switch(i){
+                case 0:
+                    valid_rows.one = dice_value_count > 0? {valid:true, score:(dice_value_count*(i+1))} : {valid:false, score:0};
+                break;
+                case 1:
+                    valid_rows.two =  dice_value_count > 0? {valid:true, score:(dice_value_count*(i+1))} : {valid:false, score:0};
+                break;
+                case 2:
+                    valid_rows.three = dice_value_count > 0? {valid:true, score:(dice_value_count*(i+1))} : {valid:false, score:0};
+                break;
+                case 3:
+                    valid_rows.four = dice_value_count > 0? {valid:true, score:(dice_value_count*(i+1))} : {valid:false, score:0};
+                break;
+                case 4:
+                    valid_rows.five = dice_value_count > 0? {valid:true, score:(dice_value_count*(i+1))} : {valid:false, score:0};
+                    
+                break;
+                case 5:
+                    valid_rows.six = dice_value_count > 0? {valid:true, score:(dice_value_count*(i+1))} : {valid:false, score:0};
+                break;
+            }
+            switch(dice_value_count){
+                case 1:
+                    straightCount++;
+                break;
+                case 2:
+                    valid_rows.twoKind.valid = true;
+                break;
+                case 3:
+                    valid_rows.threeKind.valid = true;
+                break;
+                case 4:
+                    valid_rows.fourKind.valid = true;
+                break;
+                case 5:
+                    valid_rows.yahtzee.valid = true;
+                    valid_rows.yahtzee.score = 50;
+                break;
+            }
+        }
+        if(straightCount >= 4){
+            valid_rows.smallStraight.valid = true;
+            valid_rows.smallStraight.score = 30;
+        } else if(straightCount == 5){
+            valid_rows.largeStaight.valid = true;
+            valid_rows.largeStaight.score = 40 ;
+        }
+        if(valid_rows.twoKind.valid && valid_rows.threeKind.valid){
+            valid_rows.fullHouse.valid = true;
+            valid_rows.fullHouse.score = 25;
         }
 
-        return false;
+        return valid_rows;
+
     }
 
     find_playable_rows(hand){
         let arry_sorted_dice = hand.sort_dice();
-        let arry_playable_rows = []; //{row: 1, score: 1} array of objects containing the row and calculated score
         let arry_dice_value_counts = Array(6).fill(0);
 
-        let score=0;
         let total_dice_value=0;
 
-        console.log("Sorted Dice: ", arry_sorted_dice);
-
         for(const die of arry_sorted_dice){
+
             let die_value = die.value;
-            // console.log("Die Value: ", die)
+            
             total_dice_value+=die_value;
             arry_dice_value_counts[die_value-1]++;
         }
 
-
-        for(let i = 0; i < this.#scores.length; i++){
-            if(this.#scores[i] != 0)
-                continue;
-
-            if(0 <= i && i < 6){
-                score = arry_dice_value_counts[i] * (i+1);
-            } else if(5 < i && i < 8){
-                if(calc_of_a_kind_score(i, arry_dice_value_counts))
-                    score = total_dice_value;
-            } else if(i == 8){
-                score = calc_full_house_score(i, arry_dice_value_counts);
-            } else if(8 < i && i < 11){
-                score = calc_straight_score(i, arry_dice_value_counts);
-            } else if(i == 11){
-                score = total_dice_value;
-            } else {
-                score = calc_yahtzee_score();
-            }
-            
-            if(score > 0)
-                arry_playable_rows.push({row: i, score: score});
-            
+        let valid_rows = {
+            one:{valid:false, score:0},
+            two:{valid:false, score:0},
+            three:{valid:false, score:0},
+            four:{valid:false, score:0},
+            five:{valid:false, score:0},
+            six:{valid:false, score:0},
+            twoKind: {valid:false, score:0},
+            threeKind:{valid:false, score:total_dice_value},
+            fourKind:{valid:false, score:total_dice_value},
+            smallStraight:{valid:false, score:0},
+            largeStaight:{valid:false, score:0},
+            yahtzee:{valid:false, score:0},
+            fullHouse:{valid:false, score:0}
         }
 
-        return arry_playable_rows;
-        console.log(arry_dice_value_counts);
+        this.find_valid_rows(valid_rows, arry_dice_value_counts);
+
+        return valid_rows;
     }
 }
 
@@ -174,17 +246,20 @@ function test_find_playable_rows(){
     var game = new Game();
     var hand = new Hand();
     
-    hand.get_held_die(0).setValue(6);
-    hand.get_held_die(1).setValue(6);
-    hand.get_held_die(2).setValue(6);
-    hand.get_held_die(3).setValue(2);
-    hand.get_held_die(4).setValue(1);
+    hand.get_held_die(0).setValue(1);
+    hand.get_held_die(1).setValue(2);
+    hand.get_held_die(2).setValue(3);
+    hand.get_held_die(3).setValue(4);
+    hand.get_held_die(4).setValue(5);
     
     hand.show();
 
-    game.find_playable_rows(hand);
-    
+    var playable_rows = game.find_playable_rows(hand);
+    console.log(playable_rows);
+
+
 }
+
 function test_sort_dice(){
 
     var test = new Hand();
@@ -206,7 +281,6 @@ function test_sort_dice(){
 function test_roll_selected_dice(){
 
     var test = new Hand();
-    
     test.get_held_die(0).setValue(6);
     test.get_held_die(1).setValue(6);
     test.get_held_die(2).setValue(6);

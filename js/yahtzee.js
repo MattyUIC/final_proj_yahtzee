@@ -232,6 +232,7 @@ class Game {
             smallStraight:{valid:false, score:0},
             largeStaight:{valid:false, score:0},
             yahtzee:{valid:false, score:0},
+            chance:{valid: true, score:total_dice_value},
             fullHouse:{valid:false, score:0}
         }
 
